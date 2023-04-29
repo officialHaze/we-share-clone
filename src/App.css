@@ -1,38 +1,192 @@
-.App {
-  text-align: center;
+/* display flexs'  */
+.main,
+.form,
+.add-file-btn,
+.file-upload-section,
+.file-upload-text-wrapper,
+.upload-container,
+.file-details-section,
+.file-details,
+.size-left-wrapper {
+	display: flex;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* poppins font  */
+.upload-container,
+input,
+.file-upload-btn {
+	font-family: "Poppins", sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.main {
+	min-height: 100vh;
+	align-items: center;
+	position: relative;
+	/* background: url("../public/site-bg.jpg"); */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* background image */
+.background {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.upload-container {
+	background: white;
+	width: 23rem;
+	min-height: 35rem;
+	border-radius: 1rem;
+	overflow: hidden;
+	margin-left: 7rem;
+	flex-direction: column;
+	position: absolute;
+	box-shadow: 7px 7px 25px rgba(0, 0, 0, 0.4);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#file-input {
+	display: none;
+}
+
+.file-input-label {
+	cursor: pointer;
+}
+
+.form {
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.add-file-btn {
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	border-radius: 100%;
+	width: 2.25rem;
+	height: 2.25rem;
+	background: #5454c5;
+	color: white;
+	font-size: 1.25rem;
+}
+
+/* sections  */
+.file-upload-section {
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.file-upload-text-wrapper {
+	align-items: center;
+}
+
+.file-upload-text-wrapper > h3 > span {
+	font-size: 0.75rem;
+	color: rgba(122, 122, 122, 1);
+	padding: 0 0.5rem;
+	font-weight: 400;
+}
+
+.file-details-section {
+	padding: 1rem;
+	background: #f0f0f0;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 12rem;
+	overflow: auto;
+	position: relative;
+}
+
+.file-details {
+	justify-content: space-between;
+	padding: 0.5rem 0;
+}
+
+.file-remove-wrapper {
+	color: rgb(207, 1, 1);
+}
+
+/* file upload btn section  */
+.file-upload-btn-section {
+	text-align: center;
+	padding: 2rem;
+}
+
+/* size left  */
+.size-left-wrapper {
+	justify-content: space-evenly;
+	padding: 1.5rem 1rem 0.25rem;
+	font-size: 0.8rem;
+	color: rgba(122, 122, 122, 0.9);
+}
+
+/* .file-upload-btn {
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background: #5454c5;
+	color: white;
+	padding: 0.9rem 1.5rem;
+	border-radius: 2rem;
+	font-size: 0.9rem;
+} */
+
+/* all the input elements  */
+input {
+	outline: none;
+	border: none;
+	width: 100%;
+	padding: 1rem 1.5rem;
+	margin: 0.5rem 0;
+}
+
+/* horizontal rule  */
+hr {
+	outline: none;
+	border: 1px solid rgba(122, 122, 122, 0.2);
+}
+
+.hr {
+	padding: 0 1.5rem;
+}
+
+/* custom scrollbar  */
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* keyframes fade animation */
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }
