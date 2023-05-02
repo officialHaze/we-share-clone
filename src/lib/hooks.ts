@@ -9,14 +9,14 @@ interface InitialVal {
 type ReturnType = [
 	value: InitialVal,
 	setInputVal: React.Dispatch<React.SetStateAction<InitialVal>>,
-	onChange: (e: ChangeEvent<HTMLInputElement>) => void,
+	onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void,
 	resetInput: () => void,
 ];
 
 export const useInput = (initialValue: InitialVal): ReturnType => {
 	const [inputVal, setInputVal] = useState(initialValue);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
 		const { value, id } = e.target;
 		if (id === "name")
 			setInputVal(prevState => {

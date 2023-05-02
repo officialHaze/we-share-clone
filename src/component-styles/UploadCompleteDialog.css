@@ -1,0 +1,37 @@
+.completion-dialog-box {
+	background: white;
+	position: absolute;
+	overflow: auto;
+	height: 100%;
+	width: 50%;
+	right: 0;
+	transition: transform 0.6s;
+}
+
+.upload-details-container {
+	display: flex;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.upload-details-container > div {
+	padding: 0 3rem 2rem;
+	border-right: 1px solid rgba(122, 122, 122, 0.3);
+}
+
+/* remove border from the last child */
+.upload-details-container > div:last-child {
+	border: none;
+}
+
+.upload-details-container > div > ul > li {
+	text-align: center;
+	padding: 1rem 0;
+	font-size: 0.9rem;
+}
+
+.upload-details-container > div > p{
+	font-weight: bold;
+	padding-bottom: 0.85rem;
+	text-align: center
+}

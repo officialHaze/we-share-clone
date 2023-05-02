@@ -37,3 +37,7 @@ button {
 button:hover {
 	background: #3a3a88;
 }
+
+li {
+	list-style-type: none;
+}

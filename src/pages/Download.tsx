@@ -4,6 +4,7 @@ import { axiosInstance } from "../lib/axiosConfig";
 import { decryptURL } from "../lib/encrypt_decrypt_data";
 import UploadContainer from "../components/UploadContainer";
 import CarouselImages from "../components/CarouselImages";
+import Navbar from "../components/Navbar";
 import { images } from "../lib/imageData";
 import "./Download.css";
 
@@ -31,6 +32,7 @@ export default function Download() {
 	return (
 		<main className="main">
 			<CarouselImages images={images} />
+			<Navbar />
 			<UploadContainer content={downloadURL}>
 				<div className="container">
 					<section className="file-status-section">

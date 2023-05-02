@@ -1,6 +1,8 @@
 import ProgressBar from "../components/Progress";
 import { fileSizeSerializer } from "../lib/serializers";
 import { calculateTotalSize } from "../lib/fileSize";
+import LinkCopyConfirmation from "./LinkCopyConfirmation";
+import { useState, useMemo } from "react";
 import "../component-styles/Upload-Progress.css";
 
 interface Props {
@@ -18,8 +20,16 @@ export default function UploadInProgress({
 	uploadError,
 	uploadedSizes,
 }: Props) {
+	const [isLinkCopied, setIsLinkCopied] = useState(false);
+	useMemo(() => {
+		isLinkCopied &&
+			setTimeout(() => {
+				setIsLinkCopied(false);
+			}, 1000);
+	}, [isLinkCopied]);
 	return (
 		<div className="upload-progress-container">
+			{isLinkCopied && <LinkCopyConfirmation />}
 			<section className="progress-section">
 				{!downloadPageUrl ? (
 					<ProgressBar
@@ -58,6 +68,7 @@ export default function UploadInProgress({
 							<button
 								onClick={() => {
 									navigator.clipboard.writeText(downloadPageUrl);
+									setIsLinkCopied(true);
 								}}>
 								Copy link
 							</button>
@@ -69,9 +80,7 @@ export default function UploadInProgress({
 								</a>
 							</p>
 						</div>
-						<p className="link-expiry-warning">
-							*The download link will expire in 20 days
-						</p>
+						<p className="link-expiry-warning">*Download link will expire in 20 days</p>
 					</div>
 				) : (
 					<div>

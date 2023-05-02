@@ -1,0 +1,35 @@
+.navbar {
+	background: white;
+	position: absolute;
+	top: 5%;
+	right: 15%;
+	border-radius: 0.85rem;
+	overflow: hidden;
+	box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* navbar contents */
+.list-container {
+	display: flex;
+}
+
+.list-container > div > li {
+	padding: 0.5rem 3rem;
+	cursor: pointer;
+	border-right: 1px solid rgba(122, 122, 122, 0.3);
+}
+
+.list-container > div {
+	padding: 0.5rem 0;
+}
+
+.list-container > div:hover {
+	background: rgba(122, 122, 122, 0.3);
+}
+
+/* media query */
+@media only screen and (max-width: 640px) {
+	.navbar {
+		right: 6%;
+	}
+}

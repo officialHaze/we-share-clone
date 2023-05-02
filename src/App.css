@@ -14,6 +14,7 @@
 /* poppins font  */
 .upload-container,
 input,
+textarea,
 .file-upload-btn {
 	font-family: "Poppins", sans-serif;
 }
@@ -22,7 +23,7 @@ input,
 	min-height: 100vh;
 	align-items: center;
 	position: relative;
-	/* background: url("../public/site-bg.jpg"); */
+	overflow: hidden;
 }
 
 /* background image */
@@ -110,7 +111,7 @@ input,
 /* file upload btn section  */
 .file-upload-btn-section {
 	text-align: center;
-	padding: 2rem;
+	padding: 1.5rem;
 }
 
 /* size left  */
@@ -121,24 +122,18 @@ input,
 	color: rgba(122, 122, 122, 0.9);
 }
 
-/* .file-upload-btn {
-	cursor: pointer;
-	outline: none;
-	border: none;
-	background: #5454c5;
-	color: white;
-	padding: 0.9rem 1.5rem;
-	border-radius: 2rem;
-	font-size: 0.9rem;
-} */
-
-/* all the input elements  */
-input {
+/* all the input and textarea elements  */
+input,
+textarea {
 	outline: none;
 	border: none;
 	width: 100%;
 	padding: 1rem 1.5rem;
 	margin: 0.5rem 0;
+}
+
+textarea {
+	resize: none;
 }
 
 /* horizontal rule  */
@@ -188,5 +183,20 @@ hr {
 	}
 	100% {
 		opacity: 0;
+	}
+}
+
+/* media query */
+@media only screen and (max-width: 640px) {
+	.background {
+		display: none;
+	}
+
+	.upload-container{
+		margin: 0;
+	}
+
+	.main{
+		justify-content: center;
 	}
 }

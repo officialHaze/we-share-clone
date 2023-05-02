@@ -1,15 +1,15 @@
-import { ChangeEvent, FormEvent, useMemo } from "react";
-import { useInput } from "../lib/hooks";
-import { RxCross2 } from "react-icons/rx";
-import { fileSizeSerializer } from "../lib/serializers";
-import { IoMdAdd } from "react-icons/io";
-import { shortenURL } from "../lib/shortenURL";
 import { encryptURL, decryptURL, encryptFileDetails } from "../lib/encrypt_decrypt_data";
 import { calculateTotalSize, remainingSize } from "../lib/fileSize";
-import sendFormData from "../lib/sendFormData";
 import { fileToUint8Array } from "../lib/convertFilesToUint8Array";
-import { v4 as uuidv4 } from "uuid";
 import removeExtension from "../lib/removeFileExtension";
+import { fileSizeSerializer } from "../lib/serializers";
+import { ChangeEvent, FormEvent, useMemo } from "react";
+import sendFormData from "../lib/sendFormData";
+import { shortenURL } from "../lib/shortenURL";
+import { RxCross2 } from "react-icons/rx";
+import { IoMdAdd } from "react-icons/io";
+import { useInput } from "../lib/hooks";
+import { v4 as uuidv4 } from "uuid";
 
 const baseUrl = "http://localhost:3000";
 
@@ -157,7 +157,6 @@ export default function FileUpload({
 			uploadError(true);
 			setProgressState("error");
 		}
-		removeFile(null);
 	};
 
 	const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -255,11 +254,10 @@ export default function FileUpload({
 						<hr />
 					</div>
 					<div>
-						<input
+						<textarea
 							id="description"
 							value={values.description}
 							onChange={handleDetailChange}
-							type="text"
 							placeholder="Description"
 							required
 						/>

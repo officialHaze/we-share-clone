@@ -4,6 +4,8 @@ import UploadInProgress from "../components/UploadInProgress";
 import UploadContainer from "../components/UploadContainer";
 import CarouselImages from "../components/CarouselImages";
 import { images } from "../lib/imageData";
+import Navbar from "../components/Navbar";
+import UploadCompleteDialog from "../components/UploadCompleteDialog";
 import "../App.css";
 
 export default function Home() {
@@ -33,9 +35,18 @@ export default function Home() {
 		uploadedSizes: uploadedFileSizes,
 	};
 
+	const uploadCompleteDialogProps = {
+		downloadPageLink: downloadPagelink,
+		totalFilesUploaded: files.length,
+		allFiles: files,
+		removeFiles: uploadFiles,
+	};
+
 	return (
 		<div className="main">
 			<CarouselImages images={images} />
+			{progressState !== "start" && <Navbar />}
+			<UploadCompleteDialog {...uploadCompleteDialogProps} />
 			<UploadContainer content={files}>
 				{hasProgressStarted ? (
 					<UploadInProgress {...uploadProgressProps} />

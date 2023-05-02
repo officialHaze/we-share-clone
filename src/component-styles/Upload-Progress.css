@@ -66,14 +66,25 @@
 	color: red;
 }
 
-
 /* contact dev container  */
-.contact-dev-text{
+.contact-dev-text {
 	font-size: 0.8rem;
 	padding: 4rem;
 }
 
-.contact-dev-text > a{
-	color: #146C94;
+.contact-dev-text > a {
+	color: #146c94;
 	text-decoration: underline;
+}
+
+/* link copy confirmation message  */
+.link-copy-confirmation {
+	position: absolute;
+	top: 2%;
+	left: 35%;
+	background: black;
+	color: white;
+	border-radius: 0.85rem;
+	padding: 0.85rem;
+	box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.3);
 }
