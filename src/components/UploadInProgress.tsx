@@ -8,6 +8,7 @@ interface Props {
 	progressState: string;
 	downloadPageUrl: string | null;
 	uploadError: boolean;
+	uploadedSizes: number[];
 }
 
 export default function UploadInProgress({
@@ -15,6 +16,7 @@ export default function UploadInProgress({
 	progressState,
 	downloadPageUrl,
 	uploadError,
+	uploadedSizes,
 }: Props) {
 	return (
 		<div className="upload-progress-container">
@@ -22,6 +24,7 @@ export default function UploadInProgress({
 				{!downloadPageUrl ? (
 					<ProgressBar
 						filesize={calculateTotalSize(files)}
+						uploadedSizes={uploadedSizes}
 						progressState={progressState}
 						uploadError={uploadError}
 					/>
@@ -67,7 +70,7 @@ export default function UploadInProgress({
 							</p>
 						</div>
 						<p className="link-expiry-warning">
-							*The download link will expire in 7days
+							*The download link will expire in 20 days
 						</p>
 					</div>
 				) : (
@@ -86,14 +89,22 @@ export default function UploadInProgress({
 							{!uploadError ? (
 								<button disabled>Copy link</button>
 							) : (
-								<p>
-									<a
-										className="back-to-home"
-										style={{ fontSize: "1rem" }}
-										href="/">
-										Try again?
-									</a>
-								</p>
+								<div>
+									<p>
+										<a
+											className="back-to-home"
+											style={{ fontSize: "1rem" }}
+											href="/">
+											Try again?
+										</a>
+									</p>
+									<p className="contact-dev-text">
+										*If the issue persists please contact <br />
+										<a href="mailto:moinak.dey8@gmail.com">
+											@moinak.dey8@gmail.com
+										</a>
+									</p>
+								</div>
 							)}
 						</div>
 					</div>

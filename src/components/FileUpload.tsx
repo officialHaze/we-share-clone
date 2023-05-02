@@ -1,16 +1,15 @@
 import { ChangeEvent, FormEvent, useMemo } from "react";
-import { axiosInstance } from "../lib/axiosConfig";
 import { useInput } from "../lib/hooks";
 import { RxCross2 } from "react-icons/rx";
 import { fileSizeSerializer } from "../lib/serializers";
 import { IoMdAdd } from "react-icons/io";
 import { shortenURL } from "../lib/shortenURL";
-import { encryptURL, encryptFileDetails } from "../lib/encrypt_decrypt_data";
+import { encryptURL, decryptURL, encryptFileDetails } from "../lib/encrypt_decrypt_data";
 import { calculateTotalSize, remainingSize } from "../lib/fileSize";
-import JSZip from "jszip";
-
-//create a zip instance
-const zip = new JSZip();
+import sendFormData from "../lib/sendFormData";
+import { fileToUint8Array } from "../lib/convertFilesToUint8Array";
+import { v4 as uuidv4 } from "uuid";
+import removeExtension from "../lib/removeFileExtension";
 
 const baseUrl = "http://localhost:3000";
 
@@ -22,6 +21,7 @@ interface Props {
 	setProgressState: React.Dispatch<React.SetStateAction<string>>;
 	LinkToDownloadPg: React.Dispatch<React.SetStateAction<string | null>>;
 	uploadError: React.Dispatch<React.SetStateAction<boolean>>;
+	setUploadedSize: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export default function FileUpload({
@@ -32,6 +32,7 @@ export default function FileUpload({
 	setProgressState,
 	LinkToDownloadPg,
 	uploadError,
+	setUploadedSize,
 }: Props) {
 	const [values, setInputValues, handleDetailChange, resetInput] = useInput({
 		fileName: "",
@@ -44,7 +45,7 @@ export default function FileUpload({
 			setInputValues(prevState => {
 				return {
 					...prevState,
-					fileName: files[0].name,
+					fileName: removeExtension(files[0].name),
 				};
 			});
 		} else if (files.length > 1) {
@@ -75,10 +76,60 @@ export default function FileUpload({
 		Array.from(files).forEach(file => {
 			totalSize += file.size;
 		});
-		if (totalSize > 5000000000) {
+		if (totalSize > 500000000) {
 			return "exceeded";
 		}
 		return "in-limit";
+	};
+
+	const uploadFilesInChunk = async (): Promise<number> => {
+		let fileId = 0;
+		let maxChunkSize = 5 * 1024 * 1024; //5 MB
+		let completeStatus: string;
+		const randomId = uuidv4();
+		return new Promise(async (resolve, reject) => {
+			try {
+				for (const file of files) {
+					const fileUint8Array = await fileToUint8Array(file);
+					let offset = 0;
+					while (offset < file.size) {
+						const fileSize = file.size;
+						const remainingSize = fileSize - offset;
+						const _chunkSize = Math.min(remainingSize, maxChunkSize);
+						const chunk = fileUint8Array.slice(offset, offset + _chunkSize);
+						const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
+							encryptFileDetails(
+								chunk,
+								file.name,
+								`${values.fileName}_${randomId}`,
+								values.description,
+							);
+						if (fileSize - offset < maxChunkSize) {
+							completeStatus = "complete";
+						} else {
+							completeStatus = "incomplete";
+						}
+						const { detail, id } = await sendFormData(
+							encFileName,
+							encZipName,
+							encFileDesc,
+							encFile, //original files data
+							encNonce,
+							completeStatus,
+						);
+						console.log(detail);
+						fileId = id;
+						setUploadedSize(prevState => {
+							return [...prevState, chunk.length];
+						});
+						offset += chunk.length;
+					}
+				}
+				resolve(fileId);
+			} catch (err) {
+				reject(err);
+			}
+		});
 	};
 
 	const handleUpload = async (e: FormEvent) => {
@@ -86,32 +137,20 @@ export default function FileUpload({
 		resetInput();
 		setHasProgressStarted(true);
 		setProgressState("start");
-		const zipFile = await handleCompress();
-		const { encFileName, encFileDesc, encFile, nonce } = encryptFileDetails(
-			zipFile,
-			values.fileName,
-			values.description,
-		);
-
-		const formData = new FormData();
-		formData.append("file_name", encFileName);
-		formData.append("file_desc", encFileDesc);
-		formData.append("file", encFile);
-		formData.append("nonce", nonce);
 		try {
-			const res = await axiosInstance.post("/api/file/upload/", formData); //send a request to the server only when file is available
-			if (res) {
-				const id: number = res.data.id;
-				const fileDesc = values.description
-					? values.description
-					: "No description for this file";
+			const fileId = await uploadFilesInChunk();
+			const fileDesc = values.description
+				? values.description
+				: "No description for this file";
 
-				const encryptedURL = encryptURL(
-					`${baseUrl}/download/${values.fileName}/${fileDesc}/${id.toString()}`,
-				);
-				const shortURLId = await shortenURL(encryptedURL);
-				LinkToDownloadPg(`${process.env.REACT_APP_AXIOS_BASE_URL}/${shortURLId}/`);
-			}
+			const encryptedURL = encryptURL(
+				`${baseUrl}/download/${values.fileName}/${fileDesc}/${fileId.toString()}`,
+			); //encrypt the download page url
+
+			const { enc_short_url, nonce } = await shortenURL(encryptedURL); //send a request to the server to shorten the long url and return a short url
+
+			const short_url = decryptURL(enc_short_url, nonce); //decrypt the url once received from the server
+			LinkToDownloadPg(short_url);
 			setProgressState("end");
 		} catch (err) {
 			console.log(err);
@@ -119,18 +158,6 @@ export default function FileUpload({
 			setProgressState("error");
 		}
 		removeFile(null);
-	};
-
-	//compress teh files/file and convert it into a zip file
-	const handleCompress = async () => {
-		//taking the file state
-		if (files.length !== 0) {
-			files.forEach(file => {
-				zip.file(file.name, file);
-			});
-		}
-		const content = await zip.generateAsync({ type: "base64" });
-		return content;
 	};
 
 	const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -243,7 +270,7 @@ export default function FileUpload({
 						<button
 							className="file-upload-btn"
 							type="submit">
-							Get a link
+							Get Transfer Link
 						</button>
 					) : (
 						<button
@@ -258,9 +285,3 @@ export default function FileUpload({
 		</>
 	);
 }
-
-// handleInput.value.fileName
-// 	? handleInput.value.fileName
-// 	: files.length === 1
-// 	? files[0].name
-// 	: "";

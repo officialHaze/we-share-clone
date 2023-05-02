@@ -34,24 +34,20 @@ export const useInput = (initialValue: InitialVal): ReturnType => {
 	return [inputVal, setInputVal, handleChange, () => setInputVal(initialValue)];
 };
 
-export const useStartProgress = (filesize: number | undefined) => {
+export const useStartProgress = (filesize: number | undefined, totalSizeUploaded: number) => {
 	const [progressPercent, setProgressPercent] = useState(0);
 	useMemo(() => {
 		var intervalId: any;
 		const keepProgressing = (percent: number) => {
-			intervalId = setTimeout(() => {
-				setProgressPercent(percent);
-			}, 5000);
+			setProgressPercent(percent);
 		};
 		if (filesize) {
-			let sizeInBits = filesize * 8; //convert bytes into bits
-			let remainingDataSize = sizeInBits - (progressPercent / 100) * sizeInBits; //get the remaining data on each iteration to calculate the remaining percentage of data transfer
-			const percentVal: number | void = getPercent(remainingDataSize);
-			if (percentVal) {
-				progressPercent === 100 ? clearTimeout(intervalId) : keepProgressing(percentVal);
-			}
+			// let sizeInBits = filesize * 8; //convert bytes into bits
+			// let remainingDataSize = sizeInBits - (progressPercent / 100) * sizeInBits; //get the remaining data on each iteration to calculate the remaining percentage of data transfer
+			const percentVal = getPercent(filesize, totalSizeUploaded);
+			progressPercent === 100 ? clearTimeout(intervalId) : keepProgressing(percentVal);
 		}
-	}, [progressPercent, filesize]);
+	}, [progressPercent, filesize, totalSizeUploaded]);
 
 	return progressPercent;
 };
@@ -83,4 +79,12 @@ export const useFade = (initial: boolean): [isVisible: boolean, counter: number]
 		}
 	}, [isVisible, counter]);
 	return [isVisible, counter];
+};
+
+export const useUploadedSize = (
+	initialValue: number[],
+): [fileSizes: number[], setFileSize: React.Dispatch<React.SetStateAction<number[]>>] => {
+	const [fileSizes, setFileSize] = useState(initialValue);
+
+	return [fileSizes, setFileSize];
 };

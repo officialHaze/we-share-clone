@@ -5,11 +5,21 @@ interface Parameter {
 	nonce: string;
 }
 
+interface Response {
+	data: {
+		enc_short_url: string;
+		nonce: string;
+	};
+}
+
 export const shortenURL = async (encryptedData: Parameter) => {
 	try {
-		const { data } = await axiosInstance.post("/api/file/shorten_url/", encryptedData);
-		return data.hashed_id;
+		const { data }: Response = await axiosInstance.post(
+			"/api/file/shorten_url/",
+			encryptedData,
+		);
+		return data;
 	} catch (err) {
-		console.log(err);
+		throw err;
 	}
 };

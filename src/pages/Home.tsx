@@ -1,15 +1,10 @@
 import { useState } from "react";
-import { useFade } from "../lib/hooks";
 import FileUpload from "../components/FileUpload";
 import UploadInProgress from "../components/UploadInProgress";
 import UploadContainer from "../components/UploadContainer";
+import CarouselImages from "../components/CarouselImages";
+import { images } from "../lib/imageData";
 import "../App.css";
-
-const images = [
-	"https://wallpapercrafter.com/desktop/14129-architecture-construction-bw-branches-4k.jpg",
-	"https://wallpapercrafter.com/sizes/3840x2160/221902-tree-b-and-w-black-and-white-and-blackandwhite-hd.jpg",
-	"https://wallpaperaccess.com/full/539662.jpg",
-];
 
 export default function Home() {
 	const [files, uploadFiles] = useState<File[] | []>([]);
@@ -17,8 +12,7 @@ export default function Home() {
 	const [progressState, setProgressState] = useState("");
 	const [hasProgressStarted, setHasProgressStarted] = useState(false);
 	const [uploadError, setUploadError] = useState(false);
-
-	const [isVisible, counter] = useFade(true);
+	const [uploadedFileSizes, setUploadedFileSizes] = useState([0]);
 
 	const fileUploadProps = {
 		files: files,
@@ -28,6 +22,7 @@ export default function Home() {
 		setProgressState: setProgressState,
 		LinkToDownloadPg: setDownloadPageLink,
 		uploadError: setUploadError,
+		setUploadedSize: setUploadedFileSizes,
 	};
 
 	const uploadProgressProps = {
@@ -35,17 +30,12 @@ export default function Home() {
 		progressState: progressState,
 		downloadPageUrl: downloadPagelink,
 		uploadError: uploadError,
+		uploadedSizes: uploadedFileSizes,
 	};
 
 	return (
 		<div className="main">
-			<div
-				className="background"
-				style={{
-					backgroundImage: `url(${images[counter]})`,
-					animation: `${isVisible ? "fadeIn" : "fadeOut"} 1s`,
-				}}
-			/>
+			<CarouselImages images={images} />
 			<UploadContainer content={files}>
 				{hasProgressStarted ? (
 					<UploadInProgress {...uploadProgressProps} />

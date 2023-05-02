@@ -1,4 +1,4 @@
-import { useStartProgress } from "../lib/hooks";
+import { useStartProgress, useUploadedSize } from "../lib/hooks";
 import "../component-styles/Progress-Bar.css";
 
 interface ProgressProps {
@@ -9,6 +9,7 @@ interface ProgressBarProps {
 	progressState: string;
 	filesize: number | undefined;
 	uploadError: boolean;
+	uploadedSizes: number[]
 }
 
 export const StartProgress = ({ currentPercent }: ProgressProps) => {
@@ -41,9 +42,11 @@ export const UploadError = () => {
 	);
 };
 
-export default function ProgressBar({ progressState, filesize, uploadError }: ProgressBarProps) {
-	const progressPercent = useStartProgress(filesize);
-
+export default function ProgressBar({ progressState, filesize, uploadedSizes, uploadError }: ProgressBarProps) {
+	const totalSizeUploaded = uploadedSizes.reduce((prevVal, currentVal) => {
+		return prevVal + currentVal;
+	}); //get the total uploaded size
+	const progressPercent = useStartProgress(filesize, totalSizeUploaded);
 	return (
 		<section className="bar-container">
 			<div

@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { axiosInstance } from "../lib/axiosConfig";
-import { decryptDownloadURL } from "../lib/encrypt_decrypt_data";
+import { decryptURL } from "../lib/encrypt_decrypt_data";
 import UploadContainer from "../components/UploadContainer";
+import CarouselImages from "../components/CarouselImages";
+import { images } from "../lib/imageData";
 import "./Download.css";
 
 export default function Download() {
@@ -15,7 +17,7 @@ export default function Download() {
 			.get(`/api/file/download/${id}/`)
 			.then(res => {
 				const { data } = res;
-				const url = decryptDownloadURL(data);
+				const url = decryptURL(data.download_url, data.nonce);
 				res.status === 200 && url && setDownloadURL(url);
 				res.status === 200 && setURLStatus(200);
 				res.status === 403 && setURLStatus(403);
@@ -27,7 +29,8 @@ export default function Download() {
 	}, [id]);
 
 	return (
-		<main className="download-page-main">
+		<main className="main">
+			<CarouselImages images={images} />
 			<UploadContainer content={downloadURL}>
 				<div className="container">
 					<section className="file-status-section">

@@ -57,10 +57,23 @@
 .back-to-home {
 	color: black;
 	font-size: 0.85rem;
+	text-decoration: underline;
 }
 
 /* link expiry warning  */
 .link-expiry-warning {
 	font-size: 0.75rem;
 	color: red;
+}
+
+
+/* contact dev container  */
+.contact-dev-text{
+	font-size: 0.8rem;
+	padding: 4rem;
+}
+
+.contact-dev-text > a{
+	color: #146C94;
+	text-decoration: underline;
 }
