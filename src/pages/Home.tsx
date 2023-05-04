@@ -7,6 +7,7 @@ import { images } from "../lib/imageData";
 import Navbar from "../components/Navbar";
 import UploadCompleteDialog from "../components/UploadCompleteDialog";
 import { retrieveLocalData } from "../lib/localData";
+import { useInput } from "../lib/hooks";
 import "../App.css";
 
 interface CachedUploadData {
@@ -28,6 +29,10 @@ export default function Home() {
 	const [uploadedFileSizes, setUploadedFileSizes] = useState([0]);
 	const [toResumeUpload, resumeUploading] = useState(false);
 	const [cachedData, setCachedData] = useState<CachedUploadData | null>(null);
+	const [values, setInputValues, handleDetailChange, resetInput] = useInput({
+		fileName: "",
+		description: "",
+	});
 
 	useEffect(() => {
 		const cachedData = localStorage.getItem("cached_upload_data");
@@ -55,13 +60,15 @@ export default function Home() {
 		files: files,
 		uploadFiles: uploadFiles,
 		setHasProgressStarted: setHasProgressStarted,
-		hasProgressStarted: hasProgressStarted,
 		setProgressState: setProgressState,
 		LinkToDownloadPg: setDownloadPageLink,
 		uploadError: setUploadError,
 		setUploadedSize: setUploadedFileSizes,
 		toResumeUpload: toResumeUpload,
 		cachedData: cachedData,
+		values: values,
+		setInputValues: setInputValues,
+		handleDetailChange: handleDetailChange,
 	};
 
 	const uploadProgressProps = {
@@ -77,6 +84,8 @@ export default function Home() {
 		totalFilesUploaded: files.length,
 		allFiles: files,
 		removeFiles: uploadFiles,
+		inputValues: values,
+		resetInputValues: resetInput,
 	};
 
 	return (

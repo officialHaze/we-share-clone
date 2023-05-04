@@ -7,5 +7,5 @@ export const axiosInstance = axios.create({
 	headers: {
 		"admin-token": adminToken,
 	},
-	// timeout: 9000,
+	timeout: 20000,
 });

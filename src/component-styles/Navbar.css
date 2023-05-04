@@ -1,11 +1,14 @@
 .navbar {
 	background: white;
 	position: absolute;
-	top: 5%;
-	right: 15%;
-	border-radius: 0.85rem;
+	top: 1%;
+	right: 0;
+	margin-right: 0.5rem;
+	border-radius: 0.55rem;
 	overflow: hidden;
-	box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.5);
+	/* box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.5); */
+	border: 1px solid rgba(122, 122, 122, 0.3);
+	z-index: 10;
 }
 
 /* navbar contents */
@@ -14,9 +17,13 @@
 }
 
 .list-container > div > li {
-	padding: 0.5rem 3rem;
+	padding: 0.25rem 3rem;
 	cursor: pointer;
 	border-right: 1px solid rgba(122, 122, 122, 0.3);
+}
+
+.list-container > div:last-child > li{
+	border: none;
 }
 
 .list-container > div {

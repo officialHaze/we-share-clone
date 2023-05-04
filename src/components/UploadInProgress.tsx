@@ -88,9 +88,15 @@ export default function UploadInProgress({
 							{!uploadError ? "Uploading..." : "Upload Error!"}
 						</h2>
 						<div className="file-upload-details">
-							{files.length !== 0 && <p>Total Files: {files.length}</p>}
 							{files.length !== 0 && (
-								<p>Total size: {fileSizeSerializer(calculateTotalSize(files))}</p>
+								<p>
+									{fileSizeSerializer(
+										uploadedSizes.reduce((prevVal, currentVal) => {
+											return prevVal + currentVal;
+										}),
+									)}{" "}
+									of {fileSizeSerializer(calculateTotalSize(files))} uploaded
+								</p>
 							)}
 						</div>
 						<div className="download-page-url-container" />
