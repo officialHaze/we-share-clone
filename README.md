@@ -1,46 +1,23 @@
-# Getting Started with Create React App
+# Small-Share, a clone inspired by We Share
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About Small-Share
 
-## Available Scripts
+`Small-Share` was developed as a side project for my portfolio. Why did I develop this? Well, there were two reasons, one has a little bit of backstory to it - Once one of my friends had sent me some files over a we share link which as usual I had forgotten about, and when I actually remembered and went to download the file, the link had already expired because we share links have an expiry set for 7 days on free instances(I dont know about paid or upgraded versions, haven't tried it and probably will never try it as well). So, I wanted to have a file sharing service with longer or no expiration time at all, obviously I can use some of the cloud storages available out there like the most popular one Google Drive but I did not want to clutter up my personal drive spaces for files that I only want to share and probably will never need again. This led me to the second reason as to why I developed this kind of a we share clone, I read an article on URL shorteners and wanted to make one of my own, at this point I had not researched much about any other file sharing services so I ultimately decided to develop my own online file sharing site with inbuilt URL shortening facility.
 
-In the project directory, you can run:
+I based the design and the functionality of the site upon we share upto some extent for familiarity, obviously if necessary the entire styling can be changed. The site is scalable. Small share file download URLs' has an `expiration time of 20 days`(yes, I know, I wanted no expiration at all but turns out when others start using your project, storage becomes an issue -\_-), there is another feature which we share lacks i.e. `resuming an upload`, for some reason if you face any network issues or the browser crashes, you have to reupload your files from the begining. I wanted to get rid of this problem as well, so in small share if somehow you face any issues while uploading a file/files, you can come back later to `resume your upload`, however, there is no pause/play option for uploads, also you have to resume your upload within 7 days post which if you try to upload the files you might get an upload error. Once the files are uploaded you get a short url, which redirects you to the downlaod page from where you or your friends and family can download the uploaded file.
 
-### `npm start`
+Now, coming to the name `Small-Share`, the reason for such a name is, the maximum size of file/files you can upload here should be below or equal to 500mb :'), since the entire project is currently running on free and limited resources, I couldn't take the risk of setting a higher file size cap, again if required the that can be increased.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Security
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The site follows an `AES encryption` technique, all the information and files that are submitted/uploaded are first encrypted and then sent to the server for further processing, similarly, the responses sent from the server are encrypted which are decrypted on the client and then user for futher processing. I have used the `NaCl` library to handle encryption and decryption and have written seperate scripts on the backend to generate long and random secret keys based on different inputs and handle the entire encryption and decryption process in a very secure manner.
 
-### `npm test`
+The files are not stored on the server/database, but on the `dropbox cloud storage` who has their own secure mechanism, so the files are kept locked and secured.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Frontend and Backend
 
-### `npm run build`
+The frontend for small-share has been developed using typescript and React.js along with other small libraries and packages. The client also uses your browser's local storage and IndexedDB for caching data in order to provide the `resume upload` functionality.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The backend has been developed on Python using the django, django-rest-framework and other small libraries and packages. Seperate permission scripts have been written to prevent request from unauthenticated sources. The long urls received from the client are also handled on the server and converted into short and precise urls.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to contact or advice any changes to make the site better.

@@ -70,7 +70,7 @@ export const useFade = (initial: boolean): [isVisible: boolean, counter: number]
 		if (!isVisible) {
 			notVisibleIntervalId = setTimeout(() => {
 				setIsVisible(true);
-				counter !== 2
+				counter !== 7
 					? setCounter(prevState => {
 							return (prevState += 1);
 					  })

@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 import UploadCompleteDialog from "../components/UploadCompleteDialog";
 import { retrieveLocalData } from "../lib/localData";
 import { useInput } from "../lib/hooks";
+import removeExtension from "../lib/removeFileExtension";
 import "../App.css";
 
 interface CachedUploadData {
@@ -33,6 +34,25 @@ export default function Home() {
 		fileName: "",
 		description: "",
 	});
+
+	//if user selects one file, keep the original file name as the title else keep the title blank
+	useMemo(() => {
+		if (files.length === 1) {
+			setInputValues(prevState => {
+				return {
+					...prevState,
+					fileName: removeExtension(files[0].name),
+				};
+			});
+		} else if (files.length > 1) {
+			setInputValues(prevState => {
+				return {
+					...prevState,
+					fileName: "",
+				};
+			});
+		}
+	}, [files, setInputValues]);
 
 	useEffect(() => {
 		const cachedData = localStorage.getItem("cached_upload_data");

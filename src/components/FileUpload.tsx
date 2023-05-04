@@ -1,12 +1,10 @@
 import { encryptURL, decryptURL } from "../lib/encrypt_decrypt_data";
 import { calculateTotalSize, remainingSize } from "../lib/fileSize";
-import removeExtension from "../lib/removeFileExtension";
 import { fileSizeSerializer } from "../lib/serializers";
-import { ChangeEvent, FormEvent, useMemo } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { shortenURL } from "../lib/shortenURL";
 import { RxCross2 } from "react-icons/rx";
 import { IoMdAdd } from "react-icons/io";
-import { useInput } from "../lib/hooks";
 import { v4 as uuidv4 } from "uuid";
 import { storeLocalData, deleteLocalData } from "../lib/localData";
 import uploadFileInChunks from "../lib/uploadFileinChunks";
@@ -56,28 +54,8 @@ export default function FileUpload({
 	toResumeUpload,
 	cachedData,
 	values,
-	setInputValues,
 	handleDetailChange,
 }: Props) {
-	//if user selects one file, keep the original file name as the title else keep the title blank
-	useMemo(() => {
-		if (files.length === 1) {
-			setInputValues(prevState => {
-				return {
-					...prevState,
-					fileName: removeExtension(files[0].name),
-				};
-			});
-		} else if (files.length > 1) {
-			setInputValues(prevState => {
-				return {
-					...prevState,
-					fileName: "",
-				};
-			});
-		}
-	}, [files, setInputValues]);
-
 	//empty the filelist
 	const removeFile = (i: number | null) => {
 		if (i !== null) {
@@ -160,7 +138,6 @@ export default function FileUpload({
 		setProgressState("start");
 		const randomId = uuidv4();
 		try {
-			deleteLocalData();
 			storeLocalData(files);
 			if (!toResumeUpload) {
 				encryptedDownloadUrl = await normalUpload(randomId);
@@ -168,9 +145,10 @@ export default function FileUpload({
 				encryptedDownloadUrl = await resumeUpload(randomId, cachedData);
 			}
 
-			const { enc_short_url, nonce } = await shortenURL(encryptedDownloadUrl); //send a request to the server to shorten the long url and return a short url
+			const { enc_short_url, nonce } = await shortenURL(encryptedDownloadUrl); //send a request to the server to shorten the long url
 			const short_url = decryptURL(enc_short_url, nonce); //decrypt the url once received from the server
 			LinkToDownloadPg(short_url);
+			deleteLocalData();
 			setProgressState("end");
 		} catch (err) {
 			console.error("Error while uploading", err);
