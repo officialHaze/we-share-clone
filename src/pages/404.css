@@ -1,0 +1,8 @@
+.page-not-found {
+	background: url("../../public/assets/404-bg.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+    height: 100vh;
+    width: 100%;
+}

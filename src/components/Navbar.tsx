@@ -14,7 +14,13 @@ export default function Navbar() {
 					</li>
 				</div>
 				<div>
-					<li>About</li>
+					<li>
+						<a
+							href="/about"
+							style={{ color: "black" }}>
+							About
+						</a>
+					</li>
 				</div>
 				<div>
 					<li>
