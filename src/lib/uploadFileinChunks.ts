@@ -45,7 +45,7 @@ export default async function uploadFileInChunks(
 						},
 					};
 					localStorage.setItem("cached_upload_data", JSON.stringify(_newCachedData));
-					// console.log(offset);
+					console.log(offset);
 					const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
 						encryptFileDetails(
 							chunk,
