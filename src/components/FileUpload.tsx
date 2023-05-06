@@ -84,6 +84,7 @@ export default function FileUpload({
 	//handles normal upload without any interruption
 	const normalUpload = async (randomId: string) => {
 		try {
+			storeLocalData(files);
 			const uploadDataObj = {
 				file: {
 					name: "",
@@ -139,7 +140,6 @@ export default function FileUpload({
 		setProgressState("start");
 		const randomId = uuidv4();
 		try {
-			storeLocalData(files);
 			if (!toResumeUpload) {
 				encryptedDownloadUrl = await normalUpload(randomId);
 			} else if (toResumeUpload && cachedData) {
