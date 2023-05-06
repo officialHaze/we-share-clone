@@ -153,7 +153,7 @@ export default function FileUpload({
 			setProgressState("end");
 		} catch (err) {
 			console.error("Error while uploading", err);
-			localStorage.removeItem("cached_uplaod_data");
+			localStorage.removeItem("cached_upload_data");
 			deleteLocalData();
 			uploadError(true);
 			setProgressState("error");
