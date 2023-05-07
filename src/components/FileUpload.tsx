@@ -9,8 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import { storeLocalData, deleteLocalData } from "../lib/localData";
 import uploadFileInChunks from "../lib/uploadFileinChunks";
 
-const baseUrl = "http://localhost:3000";
-// const baseUrl = "https://seol-share.vercel.app";
+// const baseUrl = "http://localhost:3000";
+const baseUrl = "https://seol-share.vercel.app";
 
 interface CachedUploadData {
 	file: {
