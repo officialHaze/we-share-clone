@@ -20,7 +20,7 @@ export default async function uploadFileInChunks(
 ): Promise<number> {
 	let _newCachedData = { ...cachedData };
 	let fileId = 0;
-	let maxChunkSize = 15 * 1024 * 1024; //2 MB
+	let maxChunkSize = 20 * 1024 * 1024; //2 MB
 	let completeStatus: string;
 	let index = 0;
 	return new Promise(async (resolve, reject) => {
@@ -47,13 +47,20 @@ export default async function uploadFileInChunks(
 					};
 					localStorage.setItem("cached_upload_data", JSON.stringify(_newCachedData));
 					console.log(offset);
-					const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
-						encryptFileDetails(
-							chunk,
-							file.name,
-							_newCachedData.title,
-							_newCachedData.desc,
-						);
+					const {
+						encFileName,
+						encZipName,
+						encFileDesc,
+						encFile,
+						encOffsetVal,
+						encNonce,
+					} = encryptFileDetails(
+						chunk,
+						file.name,
+						_newCachedData.title,
+						_newCachedData.desc,
+						offset.toString(),
+					);
 					if (fileSize - offset < maxChunkSize) {
 						completeStatus = "complete";
 					} else {
@@ -64,6 +71,7 @@ export default async function uploadFileInChunks(
 						encZipName,
 						encFileDesc,
 						encFile, //original files data
+						encOffsetVal,
 						encNonce,
 						completeStatus,
 					);

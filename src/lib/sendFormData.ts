@@ -12,6 +12,7 @@ export default async function sendFormData(
 	encZipName: string,
 	encFileDesc: string,
 	encFile: string,
+	encOffsetVal: string,
 	nonce: string,
 	completeStatus: string,
 ) {
@@ -20,6 +21,7 @@ export default async function sendFormData(
 	formData.append("zip_name", encZipName);
 	formData.append("file_desc", encFileDesc);
 	formData.append("file", encFile);
+	formData.append("offset_val", encOffsetVal);
 	formData.append("nonce", nonce);
 	formData.append("complete_status", completeStatus);
 

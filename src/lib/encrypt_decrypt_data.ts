@@ -6,6 +6,7 @@ type EncryptionResult = {
 	encZipName: string;
 	encFileDesc: string;
 	encFile: string;
+	encOffsetVal: string;
 	encNonce: string;
 };
 
@@ -26,6 +27,7 @@ export const encryptFileDetails = (
 	filename: string,
 	zipname: string,
 	filedesc: string,
+	offset: string,
 ): EncryptionResult => {
 	//decode the file from base64 encoded format into Uint8array
 	// const decodedFile = decodeBase64(file);
@@ -35,16 +37,19 @@ export const encryptFileDetails = (
 	const decodedFilename = util.decodeUTF8(filename);
 	const decodedFiledesc = util.decodeUTF8(filedesc);
 	const decodedZipName = util.decodeUTF8(zipname);
+	const decodedOffsetVal = util.decodeUTF8(offset);
 
 	const encrypted_name = nacl.secretbox(decodedFilename, nonce, secretKey);
 	const encrypted_zip_name = nacl.secretbox(decodedZipName, nonce, secretKey);
 	const encrypted_desc = nacl.secretbox(decodedFiledesc, nonce, secretKey);
+	const encrypted_offset_val = nacl.secretbox(decodedOffsetVal, nonce, secretKey);
 
 	return {
 		encFileName: encodeBase64(encrypted_name),
 		encZipName: encodeBase64(encrypted_zip_name),
 		encFileDesc: encodeBase64(encrypted_desc),
 		encFile: encodeBase64(encrypted_file),
+		encOffsetVal: encodeBase64(encrypted_offset_val),
 		encNonce: encodeBase64(nonce),
 	};
 };
