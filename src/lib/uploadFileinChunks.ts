@@ -22,25 +22,26 @@ export default async function uploadFileInChunks(
 	let fileId = 0;
 	let maxChunkSize = 5 * 1024 * 1024; //5 MB
 	let completeStatus: string;
+	let index = 0;
 	return new Promise(async (resolve, reject) => {
 		try {
-			for (let i = 0; i < files.length; i++) {
+			for (let file of files) {
 				const updateCachedData = {
 					..._newCachedData,
-					fileIndex: i,
+					fileIndex: index,
 				};
 				localStorage.setItem("cached_upload_data", JSON.stringify(updateCachedData)); //update the cached data file index on each iteration
-				const fileUint8Array = await fileToUint8Array(files[i]);
+				const fileUint8Array = await fileToUint8Array(file);
 				let offset = _newCachedData.file.offset;
-				while (offset < files[i].size) {
-					const fileSize = files[i].size;
+				while (offset < file.size) {
+					const fileSize = file.size;
 					const remainingSize = fileSize - offset;
 					const _chunkSize = Math.min(remainingSize, maxChunkSize);
 					const chunk = fileUint8Array.slice(offset, offset + _chunkSize);
 					_newCachedData = {
 						...updateCachedData,
 						file: {
-							name: files[i].name,
+							name: file.name,
 							offset: offset + chunk.length,
 						},
 					};
@@ -49,7 +50,7 @@ export default async function uploadFileInChunks(
 					const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
 						encryptFileDetails(
 							chunk,
-							files[i].name,
+							file.name,
 							_newCachedData.title,
 							_newCachedData.desc,
 						);
@@ -83,10 +84,11 @@ export default async function uploadFileInChunks(
 				_newCachedData = {
 					...updateCachedData,
 					file: {
-						name: files[i].name,
+						name: file.name,
 						offset: 0,
 					},
 				};
+				index += 1;
 			}
 			localStorage.removeItem("cached_upload_data");
 			deleteLocalData();
