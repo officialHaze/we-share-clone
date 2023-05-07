@@ -58,7 +58,7 @@ export default async function uploadFileInChunks(
 					} else {
 						completeStatus = "incomplete";
 					}
-					const { detail, id } = await sendFormData(
+					const { id } = await sendFormData(
 						encFileName,
 						encZipName,
 						encFileDesc,

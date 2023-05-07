@@ -1,4 +1,4 @@
-import { useStartProgress, useUploadedSize } from "../lib/hooks";
+import { useStartProgress } from "../lib/hooks";
 import "../component-styles/Progress-Bar.css";
 
 interface ProgressProps {
