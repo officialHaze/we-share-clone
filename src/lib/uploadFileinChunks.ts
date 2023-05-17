@@ -85,7 +85,7 @@ export default async function uploadFileInChunks(
           setUploadedSize((prevState) => {
             return [...prevState, chunk.length];
           });
-          offset += _chunkSize;
+          offset += chunk.length;
         }
         _newCachedData = {
           ...updateCachedData,
