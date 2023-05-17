@@ -45,7 +45,7 @@ export default async function uploadFileInChunks(
             ...updateCachedData,
             file: {
               name: file.name,
-              offset: offset + chunk.length,
+              offset: offset,
             },
           };
           localStorage.setItem(
