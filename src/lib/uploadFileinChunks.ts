@@ -82,6 +82,7 @@ export default async function uploadFileInChunks(
             completeStatus
           );
           fileId = id;
+          console.log(next);
           if (next === "true") {
             setUploadedSize((prevState) => {
               return [...prevState, chunk.length];
