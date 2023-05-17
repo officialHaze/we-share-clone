@@ -82,13 +82,11 @@ export default async function uploadFileInChunks(
             completeStatus
           );
           fileId = id;
-          if (next) {
+          if (next === "true") {
             setUploadedSize((prevState) => {
               return [...prevState, chunk.length];
             });
-            offset += _chunkSize;
-          } else {
-            offset = offset;
+            offset += chunk.length;
           }
         }
         _newCachedData = {

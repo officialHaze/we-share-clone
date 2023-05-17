@@ -4,7 +4,7 @@ interface Response {
   data: {
     detail: string;
     id: number;
-    next: boolean;
+    next: string;
   };
 }
 
