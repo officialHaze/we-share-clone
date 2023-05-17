@@ -20,7 +20,7 @@ export default async function uploadFileInChunks(
 ): Promise<number> {
   let _newCachedData = { ...cachedData };
   let fileId = 0;
-  let maxChunkSize = 10 * 1024 * 1024; //10 MB
+  let maxChunkSize = 8 * 1024 * 1024; //8 MB
   let completeStatus: string;
   let index = 0;
   return new Promise(async (resolve, reject) => {
