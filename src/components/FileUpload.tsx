@@ -120,16 +120,19 @@ export default function FileUpload({
   ) => {
     try {
       const idx = cachedData.fileIndex;
-      const filteredFileList = files.filter((file, i) => {
-        console.log(i);
-        return i >= idx;
+
+      const filteredFileList: File[] = [];
+      files.forEach((file, i) => {
+        if (i >= idx) filteredFileList.push(file);
       });
+
       console.log(filteredFileList);
       const fileId = await uploadFileInChunks(
         filteredFileList,
         setUploadedSize,
         cachedData
       );
+
       const fileDesc = cachedData.desc
         ? cachedData.desc
         : "No description for this file";
