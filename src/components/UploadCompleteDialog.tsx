@@ -11,12 +11,23 @@ interface InitialVal {
   description: string;
 }
 
+interface CachedUploadData {
+  file: {
+    name: string;
+    offset: number;
+  };
+  fileIndex: number;
+  title: string;
+  desc: string;
+}
+
 interface Props {
   downloadPageLink: string | null;
   totalFilesUploaded: number;
   allFiles: File[];
   removeFiles: React.Dispatch<React.SetStateAction<File[] | []>>;
   inputValues: InitialVal;
+  cachedData: CachedUploadData | null;
   resetInputValues: () => void;
 }
 
@@ -26,6 +37,7 @@ export default function UploadCompleteDialog({
   allFiles,
   removeFiles,
   inputValues,
+  cachedData,
   resetInputValues,
 }: Props) {
   const [isDialogHidden, hideDialog] = useState(true);
@@ -54,6 +66,7 @@ export default function UploadCompleteDialog({
               resetInputValues();
               removeFiles([]);
               hideDialog(true);
+              localStorage.removeItem("cached_upload_data");
             }}
           />
         </h2>
@@ -78,11 +91,15 @@ export default function UploadCompleteDialog({
           <div className="file-title-desc">
             <div className="title-container">
               <h4>Title</h4>
-              <p style={{ padding: "1rem 0" }}>{inputValues.fileName}</p>
+              <p style={{ padding: "1rem 0" }}>
+                {!cachedData ? inputValues.fileName : cachedData.title}
+              </p>
             </div>
             <div className="desc-container">
               <h4>Description</h4>
-              <p style={{ padding: "1rem 0" }}>{inputValues.description}</p>
+              <p style={{ padding: "1rem 0" }}>
+                {!cachedData ? inputValues.description : cachedData.desc}
+              </p>
             </div>
           </div>
           <div className="files-uploaded-container">

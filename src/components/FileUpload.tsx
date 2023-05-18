@@ -123,6 +123,7 @@ export default function FileUpload({
       const filteredFileList = files.filter((file, i) => {
         return i >= idx;
       });
+      console.log(filteredFileList);
       const fileId = await uploadFileInChunks(
         filteredFileList,
         setUploadedSize,
