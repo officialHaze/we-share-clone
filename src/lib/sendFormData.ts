@@ -4,7 +4,6 @@ interface Response {
   data: {
     detail: string;
     id: number;
-    next: string;
   };
 }
 

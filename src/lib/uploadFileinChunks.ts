@@ -72,7 +72,7 @@ export default async function uploadFileInChunks(
           } else {
             completeStatus = "incomplete";
           }
-          const { id, next } = await sendFormData(
+          const { id } = await sendFormData(
             encFileName,
             encZipName,
             encFileDesc,
@@ -82,13 +82,10 @@ export default async function uploadFileInChunks(
             completeStatus
           );
           fileId = id;
-          console.log(next);
-          if (next === "true") {
-            setUploadedSize((prevState) => {
-              return [...prevState, chunk.length];
-            });
-            offset += chunk.length;
-          }
+          setUploadedSize((prevState) => {
+            return [...prevState, chunk.length];
+          });
+          offset += chunk.length;
         }
         _newCachedData = {
           ...updateCachedData,
