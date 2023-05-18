@@ -81,19 +81,19 @@ export default async function uploadFileInChunks(
             encNonce,
             completeStatus
           );
-          if (completeStatus === "incomplete") {
-            _newCachedData = {
-              ...updateCachedData,
-              file: {
-                name: file.name,
-                offset: offset + chunk.length,
-              },
-            };
-            localStorage.setItem(
-              "cached_upload_data",
-              JSON.stringify(_newCachedData)
-            );
-          }
+
+          _newCachedData = {
+            ...updateCachedData,
+            file: {
+              name: file.name,
+              offset: offset + chunk.length,
+            },
+          };
+          localStorage.setItem(
+            "cached_upload_data",
+            JSON.stringify(_newCachedData)
+          );
+
           fileId = id;
           setUploadedSize((prevState) => {
             return [...prevState, chunk.length];
