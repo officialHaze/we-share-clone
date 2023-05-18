@@ -53,20 +53,14 @@ export default async function uploadFileInChunks(
             JSON.stringify(_newCachedData)
           );
           console.log(offset);
-          const {
-            encFileName,
-            encZipName,
-            encFileDesc,
-            encFile,
-            encOffsetVal,
-            encNonce,
-          } = encryptFileDetails(
-            chunk,
-            file.name,
-            _newCachedData.title,
-            _newCachedData.desc,
-            offset.toString()
-          );
+          const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
+            encryptFileDetails(
+              chunk,
+              file.name,
+              _newCachedData.title,
+              _newCachedData.desc,
+              offset.toString()
+            );
           if (fileSize - offset < maxChunkSize) {
             completeStatus = "complete";
           } else {
@@ -77,7 +71,6 @@ export default async function uploadFileInChunks(
             encZipName,
             encFileDesc,
             encFile, //original files data
-            encOffsetVal,
             encNonce,
             completeStatus
           );
