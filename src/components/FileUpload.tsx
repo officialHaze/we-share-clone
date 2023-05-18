@@ -6,7 +6,11 @@ import { shortenURL } from "../lib/shortenURL";
 import { RxCross2 } from "react-icons/rx";
 import { IoMdAdd } from "react-icons/io";
 import { v4 as uuidv4 } from "uuid";
-import { storeLocalData, deleteLocalData } from "../lib/localData";
+import {
+  storeLocalData,
+  deleteLocalData,
+  retrieveLocalData,
+} from "../lib/localData";
 import uploadFileInChunks from "../lib/uploadFileinChunks";
 
 // const baseUrl = "http://localhost:3000";
@@ -93,8 +97,9 @@ export default function FileUpload({
         title: `${values.fileName}_${randomId}`,
         desc: values.description,
       };
+      const cachedFiles = await retrieveLocalData();
       const fileId = await uploadFileInChunks(
-        files,
+        cachedFiles,
         setUploadedSize,
         uploadDataObj
       );
@@ -119,11 +124,11 @@ export default function FileUpload({
     cachedData: CachedUploadData
   ) => {
     try {
-      const idx = cachedData.fileIndex;
+      const cachedFileIdx = cachedData.fileIndex;
 
       const filteredFileList: File[] = [];
       files.forEach((file, i) => {
-        if (i >= idx) filteredFileList.push(file);
+        if (i >= cachedFileIdx) filteredFileList.push(file);
       });
 
       console.log(filteredFileList);
