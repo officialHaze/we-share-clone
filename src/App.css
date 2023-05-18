@@ -189,9 +189,9 @@ hr {
 
 /* media query */
 @media only screen and (max-width: 640px) {
-	.background {
+	/* .background {
 		display: none;
-	}
+	} */
 
 	.upload-container{
 		margin: 0;
