@@ -72,7 +72,7 @@ export default async function uploadFileInChunks(
           } else {
             completeStatus = "incomplete";
           }
-          const { id, current_offset } = await sendFormData(
+          const { id } = await sendFormData(
             encFileName,
             encZipName,
             encFileDesc,
@@ -81,17 +81,19 @@ export default async function uploadFileInChunks(
             encNonce,
             completeStatus
           );
-          _newCachedData = {
-            ...updateCachedData,
-            file: {
-              name: file.name,
-              offset: offset + chunk.length,
-            },
-          };
-          localStorage.setItem(
-            "cached_upload_data",
-            JSON.stringify(_newCachedData)
-          );
+          if (completeStatus === "incomplete") {
+            _newCachedData = {
+              ...updateCachedData,
+              file: {
+                name: file.name,
+                offset: offset + chunk.length,
+              },
+            };
+            localStorage.setItem(
+              "cached_upload_data",
+              JSON.stringify(_newCachedData)
+            );
+          }
           fileId = id;
           setUploadedSize((prevState) => {
             return [...prevState, chunk.length];
