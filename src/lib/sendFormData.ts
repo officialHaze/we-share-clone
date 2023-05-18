@@ -4,6 +4,7 @@ interface Response {
   data: {
     detail: string;
     id: number;
+    current_offset: number;
   };
 }
 
