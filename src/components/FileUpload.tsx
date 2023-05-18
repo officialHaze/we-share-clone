@@ -121,6 +121,7 @@ export default function FileUpload({
     try {
       const idx = cachedData.fileIndex;
       const filteredFileList = files.filter((file, i) => {
+        console.log(i);
         return i >= idx;
       });
       console.log(filteredFileList);

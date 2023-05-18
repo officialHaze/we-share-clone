@@ -101,6 +101,7 @@ export default async function uploadFileInChunks(
         };
         index += 1;
       }
+      localStorage.removeItem("cached_upload_data");
       deleteLocalData();
       resolve(fileId);
     } catch (err) {

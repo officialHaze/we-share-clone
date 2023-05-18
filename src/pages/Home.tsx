@@ -105,7 +105,6 @@ export default function Home() {
     allFiles: files,
     removeFiles: uploadFiles,
     inputValues: values,
-    cachedData: cachedData,
     resetInputValues: resetInput,
   };
 
