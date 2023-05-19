@@ -60,11 +60,11 @@ export default function About() {
             error. (
             <i>
               p.s. - Resuming an upload may not always work, sometimes you might
-              get an error depending on various factors as to when the upload
-              was interrupted and what was the root reason for the interruption.
-              The files are uploaded in chunks, so somehow if the data gets
-              corrupted due to an interruption, the server will throw an error
-              and stop the upload
+              get an error depending on various factors like at what point the
+              upload was interrupted and what was the root reason for the
+              interruption. The files are uploaded in chunks, so somehow if the
+              data gets corrupted due to an interruption, the server will throw
+              an error and stop the upload
             </i>
             )
             <br /> <br />
