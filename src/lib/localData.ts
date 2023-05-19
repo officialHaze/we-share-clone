@@ -11,7 +11,7 @@ export const storeLocalData = (files: File[]) => {
 		// Create the object store
 		const db = (event.target as IDBOpenDBRequest).result;
 		const objectStore = db.createObjectStore(storeName, { keyPath: "name" });
-		console.log(objectStore);
+		// console.log(objectStore);
 	};
 
 	request.onsuccess = function (event) {

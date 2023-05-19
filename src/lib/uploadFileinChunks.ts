@@ -52,7 +52,6 @@ export default async function uploadFileInChunks(
             "cached_upload_data",
             JSON.stringify(_newCachedData)
           );
-          console.log(offset);
           const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
             encryptFileDetails(
               chunk,

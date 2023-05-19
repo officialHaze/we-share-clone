@@ -130,8 +130,6 @@ export default function FileUpload({
       files.forEach((file, i) => {
         if (i >= cachedFileIdx) filteredFileList.push(file);
       });
-
-      console.log(filteredFileList);
       const fileId = await uploadFileInChunks(
         filteredFileList,
         setUploadedSize,
@@ -311,53 +309,3 @@ export default function FileUpload({
     </>
   );
 }
-
-// const uploadFilesInChunk = async (): Promise<number> => {
-// 	let fileId = 0;
-// 	let maxChunkSize = 5 * 1024 * 1024; //5 MB
-// 	let completeStatus: string;
-// 	const randomId = uuidv4();
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			for (const file of files) {
-// 				const fileUint8Array = await fileToUint8Array(file);
-// 				let offset = 0;
-// 				while (offset < file.size) {
-// 					const fileSize = file.size;
-// 					const remainingSize = fileSize - offset;
-// 					const _chunkSize = Math.min(remainingSize, maxChunkSize);
-// 					const chunk = fileUint8Array.slice(offset, offset + _chunkSize);
-// 					const { encFileName, encZipName, encFileDesc, encFile, encNonce } =
-// 						encryptFileDetails(
-// 							chunk,
-// 							file.name,
-// 							`${values.fileName}_${randomId}`,
-// 							values.description,
-// 						);
-// 					if (fileSize - offset < maxChunkSize) {
-// 						completeStatus = "complete";
-// 					} else {
-// 						completeStatus = "incomplete";
-// 					}
-// 					const { detail, id } = await sendFormData(
-// 						encFileName,
-// 						encZipName,
-// 						encFileDesc,
-// 						encFile, //original files data
-// 						encNonce,
-// 						completeStatus,
-// 					);
-// 					console.log(detail);
-// 					fileId = id;
-// 					setUploadedSize(prevState => {
-// 						return [...prevState, chunk.length];
-// 					});
-// 					offset += chunk.length;
-// 				}
-// 			}
-// 			resolve(fileId);
-// 		} catch (err) {
-// 			reject(err);
-// 		}
-// 	});
-// };
