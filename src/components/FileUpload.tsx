@@ -14,7 +14,7 @@ import {
 import uploadFileInChunks from "../lib/uploadFileinChunks";
 
 // const baseUrl = "http://localhost:3000";
-const baseUrl = "https://seol-share.vercel.app";
+const baseUrl = "https://seol.moi-e.in";
 
 interface CachedUploadData {
   file: {

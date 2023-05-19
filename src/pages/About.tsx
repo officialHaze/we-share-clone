@@ -57,15 +57,16 @@ export default function About() {
             come back later to resume your upload, however, there is no
             pause/play option, also you have to resume your upload within 7 days
             post which if you try to upload the files you might get an upload
-            error.
+            error. (
             <i>
-              (p.s. - Resuming an upload may not always work, sometimes you
-              might get an error depending on various factors as to when the
-              upload was interrupted and what was the root reason for the
-              interruption. The files are uploaded in chunks, so somehow if the
-              data gets corrupted due to an interruption, the server will throw
-              an error and stop the upload)
+              p.s. - Resuming an upload may not always work, sometimes you might
+              get an error depending on various factors as to when the upload
+              was interrupted and what was the root reason for the interruption.
+              The files are uploaded in chunks, so somehow if the data gets
+              corrupted due to an interruption, the server will throw an error
+              and stop the upload
             </i>
+            )
             <br /> <br />
             Once the files are uploaded you get a short url, which redirects you
             to the download page from where you or your friends and family can
